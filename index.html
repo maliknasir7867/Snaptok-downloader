@@ -632,7 +632,7 @@ window.addEventListener("resize",()=>{
      </div> 
     </div> 
     <div id="demoNotice" class="demo-mode-notice" style="display: none;">
-      ⚡ Server API unavailable - showing demo data
+      ⚡ Using TikWM API - Loading video data...
     </div>
    </div> 
   </div> 
@@ -657,7 +657,6 @@ const progressWrapper = document.getElementById("progressWrapper");
 const demoNotice = document.getElementById("demoNotice");
 
 let apiData = null;
-let usingDemoMode = false;
 
 /* =====================================================
    UTILITIES
@@ -670,35 +669,16 @@ function showToast(message){
 }
 
 function isValidTikTok(url){
-  return /https?:\/\/(www\.)?(tiktok\.com|vm\.tiktok\.com|vt\.tiktok\.com)\//.test(url);
+  return /https?:\/\/(www\.)?(tiktok\.com|vm\.tiktok\.com|vt\.tiktok\.com|tiktok\.com\/@)/.test(url);
 }
 
 function closeModal(){
   modal.classList.remove("active");
-  usingDemoMode = false;
 }
 
 /* =====================================================
-   FETCH TIKTOK DATA - WITH FALLBACK
+   FETCH TIKTOK DATA - USING TIKWM API (NO CORS ISSUES)
 ===================================================== */
-
-// Fallback demo data in case API fails
-const getDemoData = () => {
-  return {
-    success: true,
-    caption: "🔥 Amazing TikTok video #viral #fyp",
-    like: "15.4K",
-    views: "245.8K",
-    comments: "892",
-    date: "2026-02-15",
-    author: "tiktok_creator",
-    username: "creator_official",
-    downloads: [
-      { type: "download_video_hd", url: "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4" },
-      { type: "download_video_480p", url: "https://sample-videos.com/video123/mp4/480/big_buck_bunny_480p_1mb.mp4" }
-    ]
-  };
-};
 
 downloadBtn.addEventListener("click", async ()=>{
 
@@ -711,49 +691,33 @@ downloadBtn.addEventListener("click", async ()=>{
 
   loader.style.display = "block";
   downloadBtn.disabled = true;
-  usingDemoMode = false;
   demoNotice.style.display = "none";
 
-  // Try multiple API endpoints (fallback strategy)
-  const apiEndpoints = [
-    `https://tiktok-downloader.apis-bj-devs.workers.dev/?url=${encodeURIComponent(url)}`,
-    `https://tikdown.org/api?url=${encodeURIComponent(url)}`,
-    `https://api.tikmate.io/?url=${encodeURIComponent(url)}`
-  ];
-
-  let data = null;
-  let success = false;
-
-  for (const endpoint of apiEndpoints) {
-    try {
-      const res = await fetch(endpoint, { 
-        mode: 'cors',
-        headers: { 'Accept': 'application/json' }
-      });
-      
-      if (res.ok) {
-        const jsonData = await res.json();
-        if (jsonData && (jsonData.success || jsonData.video_url)) {
-          data = jsonData;
-          success = true;
-          break;
-        }
+  try {
+    // Using TikWM API - more reliable and no CORS issues
+    const apiUrl = `https://www.tikwm.com/api/?url=${encodeURIComponent(url)}`;
+    
+    const response = await fetch(apiUrl, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
       }
-    } catch (error) {
-      console.log(`API failed: ${endpoint}`);
-      continue;
-    }
-  }
+    });
 
-  if (!success) {
-    // If all APIs fail, use demo data
-    showToast("Using demo data (API unavailable)");
-    apiData = getDemoData();
-    usingDemoMode = true;
-    openModal();
-  } else {
-    apiData = data;
-    openModal();
+    const data = await response.json();
+    
+    if (data.code === 0 && data.data) {
+      // Success - API returned data
+      apiData = data.data;
+      openModal();
+    } else {
+      showToast("Failed to fetch video. Try another URL.");
+    }
+
+  } catch (error) {
+    console.error("API Error:", error);
+    showToast("Network error - please try again");
   }
 
   loader.style.display = "none";
@@ -761,7 +725,7 @@ downloadBtn.addEventListener("click", async ()=>{
 });
 
 /* =====================================================
-   MODAL ACTIONS
+   MODAL ACTIONS - ADAPTED FOR TIKWM API
 ===================================================== */
 
 function openModal(){
@@ -770,12 +734,6 @@ function openModal(){
   videoPreview.style.display="none";
   progressWrapper.style.display="none";
   progressBar.style.width="0%";
-  
-  if (usingDemoMode) {
-    demoNotice.style.display = "block";
-  } else {
-    demoNotice.style.display = "none";
-  }
 
   modal.classList.add("active");
 
@@ -787,36 +745,28 @@ function openModal(){
     actions.appendChild(btn);
   }
 
-  // Handle both real API and demo data structure
-  let videoUrl = null;
-  let caption = "No caption";
-  let likes = "0";
-  let views = "0";
-  let comments = "0";
-  let date = "Unknown";
-  let author = "Unknown";
-  let username = "unknown";
+  // Extract data from TikWM API response
+  const videoUrl = apiData.play; // No watermark video
+  const wmVideoUrl = apiData.wmplay; // Watermark video (if needed)
+  const caption = apiData.title || "TikTok Video";
+  const likes = formatNumber(apiData.digg_count) || "0";
+  const views = formatNumber(apiData.play_count) || "0";
+  const comments = formatNumber(apiData.comment_count) || "0";
+  const shares = formatNumber(apiData.share_count) || "0";
+  const downloads = formatNumber(apiData.download_count) || "0";
+  const collects = formatNumber(apiData.collect_count) || "0";
+  const createTime = new Date(apiData.create_time * 1000).toLocaleDateString();
+  const author = apiData.author?.nickname || "Unknown";
+  const username = apiData.author?.unique_id || "unknown";
+  const duration = apiData.duration || "0";
+  const region = apiData.region || "Unknown";
 
-  if (apiData.downloads) {
-    // Original API format
-    videoUrl = apiData.downloads.find(d=>d.type==="download_video_hd")?.url || apiData.downloads.find(d=>d.type==="download_video_480p")?.url;
-    caption = apiData.caption || "No caption";
-    likes = apiData.like || "0";
-    views = apiData.views || "0";
-    comments = apiData.comments || "0";
-    date = apiData.date || "Unknown";
-    author = apiData.author || "Unknown";
-    username = apiData.username || "unknown";
-  } else if (apiData.video_url) {
-    // Alternative API format
-    videoUrl = apiData.video_url;
-    caption = apiData.title || "TikTok Video";
-    likes = apiData.likes || "12.5K";
-    views = apiData.views || "200K";
-    comments = apiData.comments || "500";
-    date = apiData.created_at || "2026-01-01";
-    author = apiData.author_name || "tiktok_user";
-    username = apiData.author_username || "user";
+  // Format numbers (e.g., 1000 -> 1K)
+  function formatNumber(num) {
+    if (!num) return "0";
+    if (num >= 1000000) return (num/1000000).toFixed(1) + "M";
+    if (num >= 1000) return (num/1000).toFixed(1) + "K";
+    return num.toString();
   }
 
   createBtn("🎥 Preview Video",()=>{
@@ -829,11 +779,19 @@ function openModal(){
     }
   });
 
-  createBtn("⬇ Download Video", async ()=>{
+  createBtn("⬇ Download HD", async ()=>{
     if(videoUrl){
       await streamDownload(videoUrl);
     }else{
       showToast("No downloadable video.");
+    }
+  });
+
+  createBtn("⬇ Download WM", async ()=>{
+    if(wmVideoUrl){
+      await streamDownload(wmVideoUrl);
+    }else{
+      showToast("No watermark version available.");
     }
   });
 
@@ -842,13 +800,17 @@ function openModal(){
     showToast("Caption copied.");
   });
 
-  createBtn("❤️ Likes",()=> showToast("Likes: "+ likes));
-  createBtn("👀 Views",()=> showToast("Views: "+ views));
-  createBtn("💬 Comments",()=> showToast("Comments: "+ comments));
-  createBtn("📅 Date",()=> showToast("Date: "+ date));
+  createBtn("❤️ Likes",()=> showToast("❤️ Likes: " + likes));
+  createBtn("👀 Views",()=> showToast("👀 Views: " + views));
+  createBtn("💬 Comments",()=> showToast("💬 Comments: " + comments));
+  createBtn("🔄 Shares",()=> showToast("🔄 Shares: " + shares));
+  createBtn("📥 Downloads",()=> showToast("📥 Downloads: " + downloads));
+  createBtn("⭐ Collects",()=> showToast("⭐ Collects: " + collects));
+  createBtn("📅 Date",()=> showToast("📅 Posted: " + createTime));
+  createBtn("🌍 Region",()=> showToast("🌍 Region: " + region));
   createBtn("👤 Author",()=> showToast(author + " (@" + username + ")"));
 
-  setTimeout(closeModal,30000);
+  setTimeout(closeModal, 45000); // Close after 45 seconds
 }
 
 /* =====================================================
@@ -892,9 +854,11 @@ async function streamDownload(url){
 
     window.URL.revokeObjectURL(blobUrl);
 
-    showToast("Download completed.");
+    showToast("✅ Download completed!");
+    progressWrapper.style.display="none";
+    
   } catch (error) {
-    showToast("Download failed - try again");
+    showToast("❌ Download failed - try again");
     progressWrapper.style.display="none";
   }
 }
@@ -1279,7 +1243,7 @@ canvas.addEventListener("mousemove",(e)=>{
   <section class="faq-section" id="faq"> 
    <h2 class="faq-title">Frequently Asked Questions</h2> 
    <div class="faq-item"> <div class="faq-question">Is this downloader free?</div> <div class="faq-answer">Yes! You can download TikTok videos instantly with no charges.</div> </div> 
-   <div class="faq-item"> <div class="faq-question">Do videos have watermark?</div> <div class="faq-answer">No watermark is included. High-quality video is provided.</div> </div> 
+   <div class="faq-item"> <div class="faq-question">Do videos have watermark?</div> <div class="faq-answer">No watermark version is available. You can choose HD without watermark.</div> </div> 
    <div class="faq-item"> <div class="faq-question">Do I need to install anything?</div> <div class="faq-answer">No installation required. Works directly in your browser.</div> </div> 
   </section> 
   
