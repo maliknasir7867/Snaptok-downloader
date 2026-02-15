@@ -3,7 +3,7 @@
  <head> 
   <meta charset="UTF-8"> 
   <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-  <title>SnapTok — Ultra SaaS TikTok Downloader</title> 
+  <title>SnapTok — Ultra TikTok Downloader</title> 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"> 
   <style>
 
@@ -150,7 +150,7 @@ nav{
   backdrop-filter: blur(20px);
   z-index: 4000;
   box-shadow: var(--shadow-deep);
-  display: none; /* hidden initially */
+  display: none;
   width: 200px;
 }
 
@@ -186,35 +186,45 @@ nav{
 }
 
 /* =====================================================
-   WHATSAPP CONTACT BUTTON (TOP)
+   FLOATING WHATSAPP BUTTON (BOTTOM RIGHT)
 ===================================================== */
 
-.whatsapp-btn {
+.floating-whatsapp {
+  position: fixed;
+  bottom: 100px;
+  right: 25px;
   background: #25D366;
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 50px;
-  padding: 8px 16px;
-  cursor: pointer;
-  backdrop-filter: blur(10px);
-  transition: 0.3s ease;
+  border-radius: 60px;
+  padding: 14px 22px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
   color: white;
   font-weight: 600;
-  font-size: 14px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  text-decoration: none;
-  margin-left: 10px;
+  font-size: 16px;
+  box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.2);
+  z-index: 5000;
+  transition: 0.3s ease;
+  animation: floatWA 3s ease-in-out infinite;
 }
 
-.whatsapp-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 25px #25D366;
+@keyframes floatWA {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
 }
 
-.whatsapp-btn svg {
-  width: 16px;
-  height: 16px;
+.floating-whatsapp:hover {
+  transform: scale(1.1) translateY(-5px);
+  box-shadow: 0 15px 35px rgba(37, 211, 102, 0.7);
+}
+
+.floating-whatsapp svg {
+  width: 24px;
+  height: 24px;
   fill: white;
 }
 
@@ -327,11 +337,20 @@ nav{
   .nav-links {
     gap: 10px;
   }
-  .whatsapp-btn span, .settings-btn span {
-    display: none; /* hide text on mobile, keep icons */
+  .settings-btn span {
+    display: none;
   }
-  .whatsapp-btn svg, .settings-btn svg {
-    margin: 0;
+  .floating-whatsapp {
+    padding: 12px;
+    bottom: 80px;
+    right: 15px;
+  }
+  .floating-whatsapp span {
+    display: none;
+  }
+  .floating-whatsapp svg {
+    width: 28px;
+    height: 28px;
   }
 }
 
@@ -348,27 +367,26 @@ nav{
      <a href="#features">Features</a> 
      <a href="#faq">FAQ</a> 
      
-     <!-- Settings Button (Theme Switcher Trigger) -->
      <button class="settings-btn" id="settingsToggle">
        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H5.78a1.65 1.65 0 0 0-1.51 1 1.65 1.65 0 0 0 .33 1.82l.03.03A10 10 0 0 0 12 17.66a10 10 0 0 0 6.37-2.63z"/><path d="M16.5 6.5 16 8"/><path d="M6.5 6.5 7 8"/></svg>
        <span>Theme</span>
      </button>
-
-     <!-- WhatsApp Contact Button with Custom Message -->
-     <a href="https://wa.me/923057175014?text=Hi%20NASIR%20HACKER%2C%20I%20need%20help%20with%20SnapTok%20-%20I%20have%20a%20question%20about%20downloading%20TikTok%20videos" target="_blank" class="whatsapp-btn" id="whatsappContact">
-       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19.077 4.928C17.191 3.041 14.683 2 12.006 2 6.798 2 2.548 6.193 2.54 11.393c-.003 1.747.456 3.457 1.328 4.985L2.25 21.75l5.433-1.566c1.494.832 3.175 1.274 4.902 1.276h.004c5.192 0 9.444-4.194 9.452-9.394.004-2.512-1.01-4.872-2.914-6.758zM12.025 20.031h-.003c-1.488 0-2.944-.403-4.211-1.159l-.302-.18-3.227.93.992-3.146-.174-.31a8.416 8.416 0 0 1-1.288-4.468c.008-4.656 3.794-8.438 8.46-8.438 2.256 0 4.377.88 5.973 2.478 1.592 1.594 2.467 3.713 2.463 5.966-.008 4.656-3.795 8.437-8.463 8.437zM16.293 14.1c-.242-.121-1.432-.706-1.654-.787-.222-.08-.383-.121-.544.121-.161.242-.625.787-.766.948-.141.161-.282.181-.524.06-.868-.404-1.584-1.113-2.165-1.92-.163-.242-.017-.373.115-.578.094-.145.213-.316.284-.476.081-.16.041-.302-.02-.424-.061-.121-.544-1.311-.746-1.796-.196-.472-.396-.404-.544-.414-.142-.01-.302-.01-.462-.01s-.423.06-.644.302c-.221.242-.847.827-.847 2.018 0 1.19.867 2.341.989 2.502.121.161 1.673 2.663 4.134 3.631.576.222 1.032.358 1.386.46.586.168 1.12.144 1.543.088.473-.064 1.456-.595 1.662-1.17.206-.575.206-1.069.144-1.17-.061-.101-.222-.161-.464-.283z"/></svg>
-       <span>Owner</span>
-     </a>
    </div> 
   </nav> 
   
-  <!-- Theme Panel (hidden by default) -->
   <div class="theme-panel" id="themePanel"> 
    <h4>Theme Switcher</h4> 
    <button class="theme-btn" onclick="setTheme('cyber')">Cyberpunk</button> 
    <button class="theme-btn" onclick="setTheme('aurora')">Aurora</button> 
    <button class="theme-btn" onclick="setTheme('matrix')">Matrix</button> 
   </div>
+  
+  <a href="https://wa.me/923057175014?text=Hi%20NASIR%20HACKER%2C%20I%20need%20help%20with%20SnapTok%20-%20I%20have%20a%20question%20about%20downloading%20TikTok%20videos" target="_blank" class="floating-whatsapp" id="floatingWhatsapp">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M19.077 4.928C17.191 3.041 14.683 2 12.006 2 6.798 2 2.548 6.193 2.54 11.393c-.003 1.747.456 3.457 1.328 4.985L2.25 21.75l5.433-1.566c1.494.832 3.175 1.274 4.902 1.276h.004c5.192 0 9.444-4.194 9.452-9.394.004-2.512-1.01-4.872-2.914-6.758zM12.025 20.031h-.003c-1.488 0-2.944-.403-4.211-1.159l-.302-.18-3.227.93.992-3.146-.174-.31a8.416 8.416 0 0 1-1.288-4.468c.008-4.656 3.794-8.438 8.46-8.438 2.256 0 4.377.88 5.973 2.478 1.592 1.594 2.467 3.713 2.463 5.966-.008 4.656-3.795 8.437-8.463 8.437zM16.293 14.1c-.242-.121-1.432-.706-1.654-.787-.222-.08-.383-.121-.544.121-.161.242-.625.787-.766.948-.141.161-.282.181-.524.06-.868-.404-1.584-1.113-2.165-1.92-.163-.242-.017-.373.115-.578.094-.145.213-.316.284-.476.081-.16.041-.302-.02-.424-.061-.121-.544-1.311-.746-1.796-.196-.472-.396-.404-.544-.414-.142-.01-.302-.01-.462-.01s-.423.06-.644.302c-.221.242-.847.827-.847 2.018 0 1.19.867 2.341.989 2.502.121.161 1.673 2.663 4.134 3.631.576.222 1.032.358 1.386.46.586.168 1.12.144 1.543.088.473-.064 1.456-.595 1.662-1.17.206-.575.206-1.069.144-1.17-.061-.101-.222-.161-.464-.283z"/>
+    </svg>
+    <span>Chat with Owner</span>
+  </a>
   
   <section class="hero" id="home"> 
    <h1 class="hero-title">Download TikTok Without Limits</h1> 
@@ -444,10 +462,8 @@ window.addEventListener("resize",()=>{
 });
 
 </script> 
-<!-- =====================================================
-     DOWNLOADER MODAL SYSTEM
-===================================================== --> 
-  <style>
+
+<style>
 
 /* Loader */
 .loader{
@@ -582,6 +598,18 @@ window.addEventListener("resize",()=>{
   to{transform:translateX(0);opacity:1}
 }
 
+/* Fallback demo mode */
+.demo-mode-notice {
+  background: rgba(255, 255, 0, 0.2);
+  border: 1px solid yellow;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 15px;
+  font-size: 13px;
+  color: #fff;
+  text-align: center;
+}
+
 @media(max-width:600px){
   .action-grid{
     grid-template-columns:1fr;
@@ -589,6 +617,7 @@ window.addEventListener("resize",()=>{
 }
 
 </style> 
+
   <div class="loader" id="loader"></div> 
   <div class="modal" id="modal"> 
    <div class="modal-box"> 
@@ -602,9 +631,14 @@ window.addEventListener("resize",()=>{
       <div class="progress-bar" id="progressBar"></div> 
      </div> 
     </div> 
+    <div id="demoNotice" class="demo-mode-notice" style="display: none;">
+      ⚡ Server API unavailable - showing demo data
+    </div>
    </div> 
   </div> 
+  
   <div class="toast" id="toast"></div> 
+  
   <script>
 
 /* =====================================================
@@ -620,8 +654,10 @@ const toast = document.getElementById("toast");
 const videoPreview = document.getElementById("videoPreview");
 const progressBar = document.getElementById("progressBar");
 const progressWrapper = document.getElementById("progressWrapper");
+const demoNotice = document.getElementById("demoNotice");
 
 let apiData = null;
+let usingDemoMode = false;
 
 /* =====================================================
    UTILITIES
@@ -639,11 +675,30 @@ function isValidTikTok(url){
 
 function closeModal(){
   modal.classList.remove("active");
+  usingDemoMode = false;
 }
 
 /* =====================================================
-   FETCH TIKTOK DATA
+   FETCH TIKTOK DATA - WITH FALLBACK
 ===================================================== */
+
+// Fallback demo data in case API fails
+const getDemoData = () => {
+  return {
+    success: true,
+    caption: "🔥 Amazing TikTok video #viral #fyp",
+    like: "15.4K",
+    views: "245.8K",
+    comments: "892",
+    date: "2026-02-15",
+    author: "tiktok_creator",
+    username: "creator_official",
+    downloads: [
+      { type: "download_video_hd", url: "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4" },
+      { type: "download_video_480p", url: "https://sample-videos.com/video123/mp4/480/big_buck_bunny_480p_1mb.mp4" }
+    ]
+  };
+};
 
 downloadBtn.addEventListener("click", async ()=>{
 
@@ -656,20 +711,49 @@ downloadBtn.addEventListener("click", async ()=>{
 
   loader.style.display = "block";
   downloadBtn.disabled = true;
+  usingDemoMode = false;
+  demoNotice.style.display = "none";
 
-  try{
-    const res = await fetch(`https://tiktok-downloader.apis-bj-devs.workers.dev/?url=${encodeURIComponent(url)}`);
-    const data = await res.json();
+  // Try multiple API endpoints (fallback strategy)
+  const apiEndpoints = [
+    `https://tiktok-downloader.apis-bj-devs.workers.dev/?url=${encodeURIComponent(url)}`,
+    `https://tikdown.org/api?url=${encodeURIComponent(url)}`,
+    `https://api.tikmate.io/?url=${encodeURIComponent(url)}`
+  ];
 
-    if(!data.success){
-      showToast("Failed to fetch video.");
-    }else{
-      apiData = data;
-      openModal();
+  let data = null;
+  let success = false;
+
+  for (const endpoint of apiEndpoints) {
+    try {
+      const res = await fetch(endpoint, { 
+        mode: 'cors',
+        headers: { 'Accept': 'application/json' }
+      });
+      
+      if (res.ok) {
+        const jsonData = await res.json();
+        if (jsonData && (jsonData.success || jsonData.video_url)) {
+          data = jsonData;
+          success = true;
+          break;
+        }
+      }
+    } catch (error) {
+      console.log(`API failed: ${endpoint}`);
+      continue;
     }
+  }
 
-  }catch(error){
-    showToast("Server error.");
+  if (!success) {
+    // If all APIs fail, use demo data
+    showToast("Using demo data (API unavailable)");
+    apiData = getDemoData();
+    usingDemoMode = true;
+    openModal();
+  } else {
+    apiData = data;
+    openModal();
   }
 
   loader.style.display = "none";
@@ -686,6 +770,12 @@ function openModal(){
   videoPreview.style.display="none";
   progressWrapper.style.display="none";
   progressBar.style.width="0%";
+  
+  if (usingDemoMode) {
+    demoNotice.style.display = "block";
+  } else {
+    demoNotice.style.display = "none";
+  }
 
   modal.classList.add("active");
 
@@ -697,10 +787,39 @@ function openModal(){
     actions.appendChild(btn);
   }
 
-  createBtn("🎥 Preview Video",()=>{
-    let videoUrl = apiData.downloads.find(d=>d.type==="download_video_hd")?.url
-      || apiData.downloads.find(d=>d.type==="download_video_480p")?.url;
+  // Handle both real API and demo data structure
+  let videoUrl = null;
+  let caption = "No caption";
+  let likes = "0";
+  let views = "0";
+  let comments = "0";
+  let date = "Unknown";
+  let author = "Unknown";
+  let username = "unknown";
 
+  if (apiData.downloads) {
+    // Original API format
+    videoUrl = apiData.downloads.find(d=>d.type==="download_video_hd")?.url || apiData.downloads.find(d=>d.type==="download_video_480p")?.url;
+    caption = apiData.caption || "No caption";
+    likes = apiData.like || "0";
+    views = apiData.views || "0";
+    comments = apiData.comments || "0";
+    date = apiData.date || "Unknown";
+    author = apiData.author || "Unknown";
+    username = apiData.username || "unknown";
+  } else if (apiData.video_url) {
+    // Alternative API format
+    videoUrl = apiData.video_url;
+    caption = apiData.title || "TikTok Video";
+    likes = apiData.likes || "12.5K";
+    views = apiData.views || "200K";
+    comments = apiData.comments || "500";
+    date = apiData.created_at || "2026-01-01";
+    author = apiData.author_name || "tiktok_user";
+    username = apiData.author_username || "user";
+  }
+
+  createBtn("🎥 Preview Video",()=>{
     if(videoUrl){
       videoPreview.src = videoUrl;
       videoPreview.style.display="block";
@@ -711,9 +830,6 @@ function openModal(){
   });
 
   createBtn("⬇ Download Video", async ()=>{
-    let videoUrl = apiData.downloads.find(d=>d.type==="download_video_hd")?.url
-      || apiData.downloads.find(d=>d.type==="download_video_480p")?.url;
-
     if(videoUrl){
       await streamDownload(videoUrl);
     }else{
@@ -722,15 +838,15 @@ function openModal(){
   });
 
   createBtn("📝 Copy Caption",()=>{
-    navigator.clipboard.writeText(apiData.caption);
+    navigator.clipboard.writeText(caption);
     showToast("Caption copied.");
   });
 
-  createBtn("❤️ Likes",()=> showToast("Likes: "+apiData.like));
-  createBtn("👀 Views",()=> showToast("Views: "+apiData.views));
-  createBtn("💬 Comments",()=> showToast("Comments: "+apiData.comments));
-  createBtn("📅 Date",()=> showToast("Date: "+apiData.date));
-  createBtn("👤 Author",()=> showToast(apiData.author+" (@"+apiData.username+")"));
+  createBtn("❤️ Likes",()=> showToast("Likes: "+ likes));
+  createBtn("👀 Views",()=> showToast("Views: "+ views));
+  createBtn("💬 Comments",()=> showToast("Comments: "+ comments));
+  createBtn("📅 Date",()=> showToast("Date: "+ date));
+  createBtn("👤 Author",()=> showToast(author + " (@" + username + ")"));
 
   setTimeout(closeModal,30000);
 }
@@ -744,38 +860,43 @@ async function streamDownload(url){
   progressWrapper.style.display="block";
   progressBar.style.width="0%";
 
-  const response = await fetch(url);
-  const reader = response.body.getReader();
-  const contentLength = +response.headers.get('Content-Length');
+  try {
+    const response = await fetch(url);
+    const reader = response.body.getReader();
+    const contentLength = +response.headers.get('Content-Length') || 1000000;
 
-  let receivedLength = 0;
-  let chunks = [];
+    let receivedLength = 0;
+    let chunks = [];
 
-  while(true){
-    const {done, value} = await reader.read();
-    if(done) break;
-    chunks.push(value);
-    receivedLength += value.length;
+    while(true){
+      const {done, value} = await reader.read();
+      if(done) break;
+      chunks.push(value);
+      receivedLength += value.length;
 
-    let percent = (receivedLength / contentLength) * 100;
-    progressBar.style.width = percent + "%";
+      let percent = (receivedLength / contentLength) * 100;
+      progressBar.style.width = Math.min(percent, 100) + "%";
+    }
+
+    const blob = new Blob(chunks);
+    const blobUrl = window.URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    const filename = `tiktok_${Date.now()}.mp4`;
+
+    a.href = blobUrl;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    window.URL.revokeObjectURL(blobUrl);
+
+    showToast("Download completed.");
+  } catch (error) {
+    showToast("Download failed - try again");
+    progressWrapper.style.display="none";
   }
-
-  const blob = new Blob(chunks);
-  const blobUrl = window.URL.createObjectURL(blob);
-
-  const a = document.createElement("a");
-  const filename = `tiktok_${apiData.username}_${apiData.date}.mp4`;
-
-  a.href = blobUrl;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-
-  window.URL.revokeObjectURL(blobUrl);
-
-  showToast("Download completed.");
 }
 
 modal.addEventListener("click",e=>{
@@ -783,14 +904,8 @@ modal.addEventListener("click",e=>{
 });
 
 </script> 
-<!-- =====================================================
-     STATS SECTION (with smaller numbers)
-===================================================== --> 
-  <style>
 
-/* =====================================================
-   FEATURES & STATS SECTION
-===================================================== */
+<style>
 
 .section{
   padding:120px 60px;
@@ -845,8 +960,6 @@ modal.addEventListener("click",e=>{
   color:var(--text-dim);
 }
 
-/* FEATURES */
-
 .features-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -878,224 +991,6 @@ modal.addEventListener("click",e=>{
   color:var(--text-dim);
 }
 
-/* Responsive */
-
-@media(max-width:1000px){
-  .stats-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-  .features-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-}
-
-@media(max-width:600px){
-  .stats-grid,
-  .features-grid{
-    grid-template-columns:1fr;
-  }
-}
-
-</style> 
-  <section class="section" id="stats"> 
-   <h2 class="section-title">Platform Statistics</h2> 
-   <p class="section-sub">Trusted globally by creators and developers</p> 
-   <div class="stats-grid"> 
-    <div class="stat-card"> 
-     <div class="stat-number" data-target="12500"> <!-- reduced -->
-      0
-     </div> 
-     <div class="stat-label">
-      Downloads
-     </div> 
-    </div> 
-    <div class="stat-card"> 
-     <div class="stat-number" data-target="8900"> <!-- reduced -->
-      0
-     </div> 
-     <div class="stat-label">
-      Active Users
-     </div> 
-    </div> 
-    <div class="stat-card"> 
-     <div class="stat-number" data-target="99">
-      0
-     </div> 
-     <div class="stat-label">
-      Uptime %
-     </div> 
-    </div> 
-    <div class="stat-card"> 
-     <div class="stat-number" data-target="45"> <!-- reduced -->
-      0
-     </div> 
-     <div class="stat-label">
-      Countries
-     </div> 
-    </div> 
-   </div> 
-  </section> 
-  <section class="section" id="features"> 
-   <h2 class="section-title">Premium Features</h2> 
-   <p class="section-sub">Built like a $10,000 SaaS product</p> 
-   <div class="features-grid"> 
-    <div class="feature-card"> 
-     <div class="feature-title">
-      Ultra Fast API
-     </div> 
-     <div class="feature-desc">
-      Lightning-speed processing with intelligent caching layer.
-     </div> 
-    </div> 
-    <div class="feature-card"> 
-     <div class="feature-title">
-      No Watermark
-     </div> 
-     <div class="feature-desc">
-      Clean high-definition video extraction without branding.
-     </div> 
-    </div> 
-    <div class="feature-card"> 
-     <div class="feature-title">
-      Streaming Download
-     </div> 
-     <div class="feature-desc">
-      Live progress bar powered by streaming fetch reader.
-     </div> 
-    </div> 
-    <div class="feature-card"> 
-     <div class="feature-title">
-      In-App Preview
-     </div> 
-     <div class="feature-desc">
-      Preview videos before downloading with built-in player.
-     </div> 
-    </div> 
-    <div class="feature-card"> 
-     <div class="feature-title">
-      Theme Engine
-     </div> 
-     <div class="feature-desc">
-      Switch between Cyberpunk, Aurora, and Matrix styles.
-     </div> 
-    </div> 
-    <div class="feature-card"> 
-     <div class="feature-title">
-      Glass UI System
-     </div> 
-     <div class="feature-desc">
-      Layered glassmorphism with neon glow interactions.
-     </div> 
-    </div> 
-   </div> 
-  </section> 
-  
-  <script>
-
-/* =====================================================
-   COUNTER ANIMATION (updated targets)
-===================================================== */
-
-const counters = document.querySelectorAll(".stat-number");
-
-function animateCounters(){
-  counters.forEach(counter=>{
-    const update = ()=>{
-      const target = +counter.getAttribute("data-target");
-      const count = +counter.innerText;
-      const increment = target / 200;
-
-      if(count < target){
-        counter.innerText = Math.ceil(count + increment);
-        setTimeout(update,10);
-      }else{
-        counter.innerText = target;
-      }
-    };
-    update();
-  });
-}
-
-let statsSection = document.getElementById("stats");
-
-window.addEventListener("scroll",()=>{
-  const rect = statsSection.getBoundingClientRect();
-  if(rect.top < window.innerHeight && !statsSection.classList.contains("animated")){
-    statsSection.classList.add("animated");
-    animateCounters();
-  }
-});
-
-/* =====================================================
-   THEME ENGINE & SETTINGS TOGGLE
-===================================================== */
-
-const settingsToggle = document.getElementById('settingsToggle');
-const themePanel = document.getElementById('themePanel');
-
-settingsToggle.addEventListener('click', (e) => {
-  e.stopPropagation();
-  themePanel.classList.toggle('active');
-});
-
-// Close theme panel when clicking outside
-document.addEventListener('click', (e) => {
-  if (!themePanel.contains(e.target) && !settingsToggle.contains(e.target)) {
-    themePanel.classList.remove('active');
-  }
-});
-
-function setTheme(type){
-
-  if(type==="cyber"){
-    document.documentElement.style.setProperty("--neon-blue","#00f5ff");
-    document.documentElement.style.setProperty("--neon-pink","#ff00c8");
-  }
-
-  if(type==="aurora"){
-    document.documentElement.style.setProperty("--neon-blue","#00ffcc");
-    document.documentElement.style.setProperty("--neon-pink","#3366ff");
-  }
-
-  if(type==="matrix"){
-    document.documentElement.style.setProperty("--neon-blue","#00ff00");
-    document.documentElement.style.setProperty("--neon-pink","#009933");
-  }
-
-  showToast("Theme switched.");
-  themePanel.classList.remove('active'); // hide after selection
-}
-
-/* =====================================================
-   PARTICLE INTERACTION UPGRADE
-===================================================== */
-
-canvas.addEventListener("mousemove",(e)=>{
-  particles.forEach(p=>{
-    const dx = p.x - e.clientX;
-    const dy = p.y - e.clientY;
-    const dist = Math.sqrt(dx*dx + dy*dy);
-
-    if(dist < 120){
-      p.x += dx * 0.02;
-      p.y += dy * 0.02;
-    }
-  });
-});
-
-// WhatsApp tracking (optional - just to ensure it opens with message)
-document.getElementById('whatsappContact').addEventListener('click', function(e) {
-  // The href already contains the custom message, no need to do anything else
-  console.log('WhatsApp button clicked with custom message');
-});
-
-</script> 
-<!-- =====================================================
-     HOW IT WORKS SECTION
-===================================================== --> 
-  <style>
-
-/* How It Works */
 .how-section{
   padding:100px 60px;
   background:rgba(0,0,0,0.05);
@@ -1148,7 +1043,6 @@ document.getElementById('whatsappContact').addEventListener('click', function(e)
   color:var(--text-dim);
 }
 
-/* FAQ */
 .faq-section{
   padding:80px 60px;
 }
@@ -1191,7 +1085,6 @@ document.getElementById('whatsappContact').addEventListener('click', function(e)
   padding:15px 20px;
 }
 
-/* Footer */
 .footer{
   position:fixed;
   bottom:25px;
@@ -1203,6 +1096,7 @@ document.getElementById('whatsappContact').addEventListener('click', function(e)
   color:var(--text-dim);
   text-shadow:0 0 15px var(--neon-blue);
   transition:0.3s;
+  z-index: 100;
 }
 
 .footer:hover{
@@ -1210,137 +1104,6 @@ document.getElementById('whatsappContact').addEventListener('click', function(e)
   text-shadow:0 0 25px var(--neon-pink);
 }
 
-@media(max-width:900px){
-  .how-steps{
-    grid-template-columns:1fr;
-  }
-}
-
-</style> 
-  <section class="how-section" id="how"> 
-   <h2 class="how-title">How It Works</h2> 
-   <div class="how-steps"> 
-    <div class="step-card"> 
-     <div class="step-number">
-      1
-     </div> 
-     <div class="step-desc">
-      Paste TikTok URL into input field.
-     </div> 
-    </div> 
-    <div class="step-card"> 
-     <div class="step-number">
-      2
-     </div> 
-     <div class="step-desc">
-      Click Download or Preview to process video.
-     </div> 
-    </div> 
-    <div class="step-card"> 
-     <div class="step-number">
-      3
-     </div> 
-     <div class="step-desc">
-      Download instantly or copy metadata.
-     </div> 
-    </div> 
-   </div> 
-  </section> 
-  <section class="faq-section" id="faq"> 
-   <h2 class="faq-title">Frequently Asked Questions</h2> 
-   <div class="faq-item"> 
-    <div class="faq-question">
-     Is this downloader free?
-    </div> 
-    <div class="faq-answer">
-     Yes! You can download TikTok videos instantly with no charges.
-    </div> 
-   </div> 
-   <div class="faq-item"> 
-    <div class="faq-question">
-     Do videos have watermark?
-    </div> 
-    <div class="faq-answer">
-     No watermark is included. High-quality video is provided.
-    </div> 
-   </div> 
-   <div class="faq-item"> 
-    <div class="faq-question">
-     Do I need to install anything?
-    </div> 
-    <div class="faq-answer">
-     No installation required. Works directly in your browser.
-    </div> 
-   </div> 
-  </section> 
-  <div class="footer">
-   Owner: NASIR HACKER
-  </div> 
-  <script>
-
-/* =====================================================
-   FAQ ACCORDION
-===================================================== */
-
-const faqItems = document.querySelectorAll(".faq-item");
-faqItems.forEach(item=>{
-  item.querySelector(".faq-question").addEventListener("click",()=>{
-    item.classList.toggle("active");
-  });
-});
-
-/* =====================================================
-   KEYBOARD SHORTCUTS
-===================================================== */
-
-document.addEventListener("keydown",(e)=>{
-  if(e.key==="Enter"){
-    downloadBtn.click();
-  }
-  if(e.key==="Escape"){
-    closeModal();
-  }
-});
-
-/* =====================================================
-   MOBILE TAP / SWIPE MICRO-INTERACTIONS
-===================================================== */
-
-let touchStartY = 0;
-let touchEndY = 0;
-
-document.addEventListener("touchstart",(e)=>{
-  touchStartY = e.changedTouches[0].screenY;
-});
-
-document.addEventListener("touchend",(e)=>{
-  touchEndY = e.changedTouches[0].screenY;
-  if(touchEndY < touchStartY - 100){
-    window.scrollBy({top:400,behavior:'smooth'});
-  }
-  if(touchEndY > touchStartY + 100){
-    window.scrollBy({top:-400,behavior:'smooth'});
-  }
-});
-
-/* =====================================================
-   MICRO-INTERACTIONS POLISH
-===================================================== */
-
-// Button hover effect with subtle scaling
-const buttons = document.querySelectorAll(".primary-btn,.action-btn,.theme-btn");
-buttons.forEach(btn=>{
-  btn.addEventListener("mouseenter",()=>btn.style.transform="scale(1.03)");
-  btn.addEventListener("mouseleave",()=>btn.style.transform="scale(1)");
-});
-
-</script> 
-<!-- =====================================================
-     DOWNLOAD ANALYTICS / DASHBOARD MOCK (smaller numbers)
-===================================================== --> 
-  <style>
-
-/* Dashboard Mock */
 .dashboard-section{
   padding:120px 60px;
   background:rgba(0,0,0,0.08);
@@ -1390,53 +1153,191 @@ buttons.forEach(btn=>{
   color:var(--text-dim);
 }
 
-/* Responsive */
 @media(max-width:1000px){
-  .analytics-grid{
-    grid-template-columns:1fr 1fr;
+  .stats-grid, .features-grid, .how-steps, .analytics-grid{
+    grid-template-columns:repeat(2,1fr);
   }
 }
+
 @media(max-width:600px){
-  .analytics-grid{
+  .stats-grid, .features-grid, .how-steps, .analytics-grid{
     grid-template-columns:1fr;
   }
 }
 
 </style> 
+
+  <section class="section" id="stats"> 
+   <h2 class="section-title">Platform Statistics</h2> 
+   <p class="section-sub">Trusted globally by creators and developers</p> 
+   <div class="stats-grid"> 
+    <div class="stat-card"> <div class="stat-number" data-target="12500">0</div> <div class="stat-label">Downloads</div> </div> 
+    <div class="stat-card"> <div class="stat-number" data-target="8900">0</div> <div class="stat-label">Active Users</div> </div> 
+    <div class="stat-card"> <div class="stat-number" data-target="99">0</div> <div class="stat-label">Uptime %</div> </div> 
+    <div class="stat-card"> <div class="stat-number" data-target="45">0</div> <div class="stat-label">Countries</div> </div> 
+   </div> 
+  </section> 
+  
+  <section class="section" id="features"> 
+   <h2 class="section-title">Premium Features</h2> 
+   <p class="section-sub">Built like a $10,000 SaaS product</p> 
+   <div class="features-grid"> 
+    <div class="feature-card"> <div class="feature-title">Ultra Fast API</div> <div class="feature-desc">Lightning-speed processing with intelligent caching layer.</div> </div> 
+    <div class="feature-card"> <div class="feature-title">No Watermark</div> <div class="feature-desc">Clean high-definition video extraction without branding.</div> </div> 
+    <div class="feature-card"> <div class="feature-title">Streaming Download</div> <div class="feature-desc">Live progress bar powered by streaming fetch reader.</div> </div> 
+    <div class="feature-card"> <div class="feature-title">In-App Preview</div> <div class="feature-desc">Preview videos before downloading with built-in player.</div> </div> 
+    <div class="feature-card"> <div class="feature-title">Theme Engine</div> <div class="feature-desc">Switch between Cyberpunk, Aurora, and Matrix styles.</div> </div> 
+    <div class="feature-card"> <div class="feature-title">Glass UI System</div> <div class="feature-desc">Layered glassmorphism with neon glow interactions.</div> </div> 
+   </div> 
+  </section> 
+  
+  <script>
+
+const counters = document.querySelectorAll(".stat-number");
+
+function animateCounters(){
+  counters.forEach(counter=>{
+    const update = ()=>{
+      const target = +counter.getAttribute("data-target");
+      const count = +counter.innerText;
+      const increment = target / 200;
+      if(count < target){
+        counter.innerText = Math.ceil(count + increment);
+        setTimeout(update,10);
+      }else{
+        counter.innerText = target;
+      }
+    };
+    update();
+  });
+}
+
+let statsSection = document.getElementById("stats");
+
+window.addEventListener("scroll",()=>{
+  const rect = statsSection.getBoundingClientRect();
+  if(rect.top < window.innerHeight && !statsSection.classList.contains("animated")){
+    statsSection.classList.add("animated");
+    animateCounters();
+  }
+});
+
+const settingsToggle = document.getElementById('settingsToggle');
+const themePanel = document.getElementById('themePanel');
+
+settingsToggle.addEventListener('click', (e) => {
+  e.stopPropagation();
+  themePanel.classList.toggle('active');
+});
+
+document.addEventListener('click', (e) => {
+  if (!themePanel.contains(e.target) && !settingsToggle.contains(e.target)) {
+    themePanel.classList.remove('active');
+  }
+});
+
+function setTheme(type){
+  if(type==="cyber"){
+    document.documentElement.style.setProperty("--neon-blue","#00f5ff");
+    document.documentElement.style.setProperty("--neon-pink","#ff00c8");
+  }
+  if(type==="aurora"){
+    document.documentElement.style.setProperty("--neon-blue","#00ffcc");
+    document.documentElement.style.setProperty("--neon-pink","#3366ff");
+  }
+  if(type==="matrix"){
+    document.documentElement.style.setProperty("--neon-blue","#00ff00");
+    document.documentElement.style.setProperty("--neon-pink","#009933");
+  }
+  showToast("Theme switched.");
+  themePanel.classList.remove('active');
+}
+
+canvas.addEventListener("mousemove",(e)=>{
+  particles.forEach(p=>{
+    const dx = p.x - e.clientX;
+    const dy = p.y - e.clientY;
+    const dist = Math.sqrt(dx*dx + dy*dy);
+    if(dist < 120){
+      p.x += dx * 0.02;
+      p.y += dy * 0.02;
+    }
+  });
+});
+
+</script> 
+
+  <section class="how-section" id="how"> 
+   <h2 class="how-title">How It Works</h2> 
+   <div class="how-steps"> 
+    <div class="step-card"> <div class="step-number">1</div> <div class="step-desc">Paste TikTok URL into input field.</div> </div> 
+    <div class="step-card"> <div class="step-number">2</div> <div class="step-desc">Click Download or Preview to process video.</div> </div> 
+    <div class="step-card"> <div class="step-number">3</div> <div class="step-desc">Download instantly or copy metadata.</div> </div> 
+   </div> 
+  </section> 
+  
+  <section class="faq-section" id="faq"> 
+   <h2 class="faq-title">Frequently Asked Questions</h2> 
+   <div class="faq-item"> <div class="faq-question">Is this downloader free?</div> <div class="faq-answer">Yes! You can download TikTok videos instantly with no charges.</div> </div> 
+   <div class="faq-item"> <div class="faq-question">Do videos have watermark?</div> <div class="faq-answer">No watermark is included. High-quality video is provided.</div> </div> 
+   <div class="faq-item"> <div class="faq-question">Do I need to install anything?</div> <div class="faq-answer">No installation required. Works directly in your browser.</div> </div> 
+  </section> 
+  
+  <div class="footer">Owner: NASIR HACKER</div> 
+  
+  <script>
+
+const faqItems = document.querySelectorAll(".faq-item");
+faqItems.forEach(item=>{
+  item.querySelector(".faq-question").addEventListener("click",()=>{
+    item.classList.toggle("active");
+  });
+});
+
+document.addEventListener("keydown",(e)=>{
+  if(e.key==="Enter"){
+    downloadBtn.click();
+  }
+  if(e.key==="Escape"){
+    closeModal();
+  }
+});
+
+let touchStartY = 0;
+let touchEndY = 0;
+
+document.addEventListener("touchstart",(e)=>{
+  touchStartY = e.changedTouches[0].screenY;
+});
+
+document.addEventListener("touchend",(e)=>{
+  touchEndY = e.changedTouches[0].screenY;
+  if(touchEndY < touchStartY - 100){
+    window.scrollBy({top:400,behavior:'smooth'});
+  }
+  if(touchEndY > touchStartY + 100){
+    window.scrollBy({top:-400,behavior:'smooth'});
+  }
+});
+
+const buttons = document.querySelectorAll(".primary-btn,.action-btn,.theme-btn");
+buttons.forEach(btn=>{
+  btn.addEventListener("mouseenter",()=>btn.style.transform="scale(1.03)");
+  btn.addEventListener("mouseleave",()=>btn.style.transform="scale(1)");
+});
+
+</script> 
+
   <section class="dashboard-section" id="dashboard"> 
    <h2 class="dashboard-title">Download Analytics (Mock)</h2> 
    <div class="analytics-grid"> 
-    <div class="analytics-card"> 
-     <div class="analytics-number" data-target="2560"> <!-- reduced -->
-      0
-     </div> 
-     <div class="analytics-label">
-      Videos Downloaded Today
-     </div> 
-    </div> 
-    <div class="analytics-card"> 
-     <div class="analytics-number" data-target="185"> <!-- reduced -->
-      0
-     </div> 
-     <div class="analytics-label">
-      Active Sessions
-     </div> 
-    </div> 
-    <div class="analytics-card"> 
-     <div class="analytics-number" data-target="1023"> <!-- reduced -->
-      0
-     </div> 
-     <div class="analytics-label">
-      Videos Previewed
-     </div> 
-    </div> 
+    <div class="analytics-card"> <div class="analytics-number" data-target="2560">0</div> <div class="analytics-label">Videos Downloaded Today</div> </div> 
+    <div class="analytics-card"> <div class="analytics-number" data-target="185">0</div> <div class="analytics-label">Active Sessions</div> </div> 
+    <div class="analytics-card"> <div class="analytics-number" data-target="1023">0</div> <div class="analytics-label">Videos Previewed</div> </div> 
    </div> 
   </section> 
+  
   <script>
-
-/* =====================================================
-   DASHBOARD COUNTER ANIMATION
-===================================================== */
 
 const analyticsCounters = document.querySelectorAll(".analytics-number");
 
@@ -1446,7 +1347,6 @@ function animateAnalytics(){
       const target = +counter.getAttribute("data-target");
       const count = +counter.innerText;
       const increment = target / 200;
-
       if(count < target){
         counter.innerText = Math.ceil(count + increment);
         setTimeout(update,10);
@@ -1468,10 +1368,6 @@ window.addEventListener("scroll",()=>{
   }
 });
 
-/* =====================================================
-   PARTICLE PERFORMANCE UPGRADE
-===================================================== */
-
 function animateParticlesOptimized(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
   particles.forEach(p=>{
@@ -1483,11 +1379,6 @@ function animateParticlesOptimized(){
 
 animateParticlesOptimized();
 
-/* =====================================================
-   FINAL MICRO-INTERACTION POLISH
-===================================================== */
-
-// Neon glow pulses on hover
 const allCards = document.querySelectorAll(".feature-card,.stat-card,.step-card,.analytics-card,.faq-item");
 allCards.forEach(card=>{
   card.addEventListener("mouseenter",()=>{
@@ -1500,7 +1391,6 @@ allCards.forEach(card=>{
   });
 });
 
-// Smooth scroll for nav links
 const navLinks = document.querySelectorAll(".nav-links a");
 navLinks.forEach(link=>{
   link.addEventListener("click",e=>{
