@@ -322,7 +322,7 @@ nav{
 }
 
 /* =====================================================
-   RESULTS SECTION (NEW - REPLACES MODAL)
+   RESULTS SECTION (INLINE RESULTS)
 ===================================================== */
 
 .results-section {
@@ -432,16 +432,69 @@ nav{
   letter-spacing: 0.5px;
 }
 
-.caption-box {
+/* =====================================================
+   CAPTION BOX WITH COPY BUTTON
+===================================================== */
+
+.caption-container {
   background: rgba(255,255,255,0.03);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-md);
-  padding: 20px;
+  padding: 15px 20px;
   margin-bottom: 30px;
+  position: relative;
+}
+
+.caption-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.caption-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--neon-blue);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.copy-caption-btn {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid var(--glass-border);
+  border-radius: 30px;
+  padding: 6px 15px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: 0.3s;
+}
+
+.copy-caption-btn:hover {
+  background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 0 15px rgba(255,0,200,0.5);
+}
+
+.copy-caption-btn svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+
+.caption-box {
   font-size: 15px;
   line-height: 1.6;
   max-height: 100px;
   overflow-y: auto;
+  color: var(--text-main);
+  padding-right: 10px;
 }
 
 .author-info {
@@ -610,6 +663,11 @@ nav{
   }
   .download-buttons {
     flex-direction: column;
+  }
+  .caption-header {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
   }
 }
 
@@ -921,7 +979,7 @@ nav{
    </div> 
   </section>
 
-  <!-- RESULTS SECTION (Replaces Modal) -->
+  <!-- RESULTS SECTION WITH COPY BUTTON -->
   <div class="results-section" id="resultsSection">
     <div class="results-header">
       <div class="results-title">🎬 Video Details</div>
@@ -936,8 +994,19 @@ nav{
     <!-- Stats Grid -->
     <div class="stats-grid-results" id="statsGrid"></div>
     
-    <!-- Caption -->
-    <div class="caption-box" id="captionBox"></div>
+    <!-- Caption with Copy Button -->
+    <div class="caption-container">
+      <div class="caption-header">
+        <div class="caption-label">📝 Video Caption</div>
+        <button class="copy-caption-btn" id="copyCaptionBtn">
+          <svg viewBox="0 0 24 24" width="14" height="14">
+            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+          </svg>
+          Copy Caption
+        </button>
+      </div>
+      <div class="caption-box" id="captionBox"></div>
+    </div>
     
     <!-- Author Info -->
     <div class="author-info" id="authorInfo"></div>
@@ -1034,6 +1103,7 @@ const resultVideo = document.getElementById("resultVideo");
 const videoContainer = document.getElementById("videoContainer");
 const statsGrid = document.getElementById("statsGrid");
 const captionBox = document.getElementById("captionBox");
+const copyCaptionBtn = document.getElementById("copyCaptionBtn");
 const authorInfo = document.getElementById("authorInfo");
 const downloadHdBtn = document.getElementById("downloadHdBtn");
 const downloadWmBtn = document.getElementById("downloadWmBtn");
@@ -1173,6 +1243,38 @@ function displayResults(data) {
   downloadHdBtn.setAttribute('data-url', data.play || '');
   downloadWmBtn.setAttribute('data-url', data.wmplay || '');
 }
+
+/* =====================================================
+   COPY CAPTION FUNCTIONALITY
+===================================================== */
+
+copyCaptionBtn.addEventListener('click', () => {
+  const caption = captionBox.textContent;
+  
+  // Use modern clipboard API
+  navigator.clipboard.writeText(caption).then(() => {
+    showToast("✅ Caption copied to clipboard!");
+    
+    // Visual feedback on button
+    copyCaptionBtn.style.background = "linear-gradient(90deg, var(--neon-blue), var(--neon-pink))";
+    copyCaptionBtn.style.color = "white";
+    
+    setTimeout(() => {
+      copyCaptionBtn.style.background = "";
+      copyCaptionBtn.style.color = "";
+    }, 500);
+    
+  }).catch(err => {
+    // Fallback for older browsers
+    const textarea = document.createElement('textarea');
+    textarea.value = caption;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    showToast("✅ Caption copied!");
+  });
+});
 
 /* =====================================================
    DOWNLOAD HANDLERS
@@ -1464,7 +1566,7 @@ document.addEventListener("touchend",(e)=>{
    HOVER EFFECTS
 ===================================================== */
 
-const buttons = document.querySelectorAll(".primary-btn,.action-btn,.theme-btn,.download-btn");
+const buttons = document.querySelectorAll(".primary-btn,.action-btn,.theme-btn,.download-btn,.copy-caption-btn");
 buttons.forEach(btn=>{
   btn.addEventListener("mouseenter",()=>btn.style.transform="scale(1.03)");
   btn.addEventListener("mouseleave",()=>btn.style.transform="scale(1)");
