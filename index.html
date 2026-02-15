@@ -273,6 +273,7 @@ nav{
   padding:60px;
   box-shadow:var(--shadow-deep);
   transition:0.4s;
+  margin-bottom: 30px;
 }
 
 .downloader-wrapper:hover{
@@ -321,6 +322,258 @@ nav{
 }
 
 /* =====================================================
+   RESULTS SECTION (NEW - REPLACES MODAL)
+===================================================== */
+
+.results-section {
+  width: 100%;
+  max-width: 900px;
+  margin: 30px auto 60px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(40px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  padding: 40px;
+  box-shadow: var(--shadow-deep);
+  transition: 0.4s;
+  display: none;
+}
+
+.results-section.active {
+  display: block;
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  border-bottom: 1px solid var(--glass-border);
+  padding-bottom: 15px;
+}
+
+.results-title {
+  font-size: 24px;
+  font-weight: 700;
+  background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.close-results {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--glass-border);
+  border-radius: 50px;
+  padding: 8px 20px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.3s;
+  color: var(--text-dim);
+}
+
+.close-results:hover {
+  background: rgba(255, 0, 200, 0.2);
+  color: white;
+}
+
+.video-container {
+  width: 100%;
+  margin-bottom: 30px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: rgba(0,0,0,0.3);
+}
+
+.video-container video {
+  width: 100%;
+  max-height: 500px;
+  display: block;
+  outline: none;
+}
+
+.stats-grid-results {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.stat-item {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 20px 10px;
+  text-align: center;
+  transition: 0.3s;
+}
+
+.stat-item:hover {
+  background: rgba(0, 255, 255, 0.1);
+  transform: translateY(-3px);
+}
+
+.stat-value {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 5px;
+  color: var(--neon-blue);
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.caption-box {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  margin-bottom: 30px;
+  font-size: 15px;
+  line-height: 1.6;
+  max-height: 100px;
+  overflow-y: auto;
+}
+
+.author-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+  padding: 15px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+}
+
+.author-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, var(--neon-blue), var(--neon-pink));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.author-details {
+  flex: 1;
+}
+
+.author-name {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+
+.author-username {
+  font-size: 14px;
+  color: var(--text-dim);
+}
+
+.download-buttons {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.download-btn {
+  flex: 1;
+  padding: 15px;
+  border: none;
+  border-radius: 60px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+  text-align: center;
+}
+
+.download-btn.hd {
+  background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
+  color: white;
+  box-shadow: 0 0 25px rgba(255,0,200,0.5);
+}
+
+.download-btn.wm {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid var(--glass-border);
+  color: white;
+}
+
+.download-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 30px rgba(0,255,255,0.7);
+}
+
+.progress-wrapper {
+  margin-top: 20px;
+  display: none;
+}
+
+.progress-bar {
+  width: 0%;
+  height: 10px;
+  background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
+  border-radius: 10px;
+  transition: width 0.2s;
+}
+
+.progress-bg {
+  width: 100%;
+  height: 10px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 10px;
+}
+
+.loader {
+  margin: 30px auto;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  border: 5px solid rgba(255,255,255,0.15);
+  border-top: 5px solid var(--neon-blue);
+  animation: spin 1s linear infinite;
+  display: none;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.toast {
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  background: rgba(0,0,0,0.9);
+  border: 1px solid var(--neon-pink);
+  padding: 16px 22px;
+  border-radius: 14px;
+  box-shadow: 0 0 25px rgba(255,0,200,0.6);
+  display: none;
+  z-index: 3000;
+  animation: slideIn 0.5s ease forwards;
+  font-size: 14px;
+  max-width: 320px;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* =====================================================
    RESPONSIVE
 ===================================================== */
 
@@ -352,524 +605,17 @@ nav{
     width: 28px;
     height: 28px;
   }
-}
-
-</style> 
- </head> 
- <body> 
-  <canvas id="bgCanvas"></canvas> 
-  <nav> 
-   <div class="nav-logo">
-    SnapTok
-   </div> 
-   <div class="nav-links"> 
-     <a href="#home">Home</a> 
-     <a href="#features">Features</a> 
-     <a href="#faq">FAQ</a> 
-     
-     <button class="settings-btn" id="settingsToggle">
-       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H5.78a1.65 1.65 0 0 0-1.51 1 1.65 1.65 0 0 0 .33 1.82l.03.03A10 10 0 0 0 12 17.66a10 10 0 0 0 6.37-2.63z"/><path d="M16.5 6.5 16 8"/><path d="M6.5 6.5 7 8"/></svg>
-       <span>Theme</span>
-     </button>
-   </div> 
-  </nav> 
-  
-  <div class="theme-panel" id="themePanel"> 
-   <h4>Theme Switcher</h4> 
-   <button class="theme-btn" onclick="setTheme('cyber')">Cyberpunk</button> 
-   <button class="theme-btn" onclick="setTheme('aurora')">Aurora</button> 
-   <button class="theme-btn" onclick="setTheme('matrix')">Matrix</button> 
-  </div>
-  
-  <a href="https://wa.me/923057175014?text=Hi%20NASIR%20HACKER%2C%20I%20need%20help%20with%20SnapTok%20-%20I%20have%20a%20question%20about%20downloading%20TikTok%20videos" target="_blank" class="floating-whatsapp" id="floatingWhatsapp">
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M19.077 4.928C17.191 3.041 14.683 2 12.006 2 6.798 2 2.548 6.193 2.54 11.393c-.003 1.747.456 3.457 1.328 4.985L2.25 21.75l5.433-1.566c1.494.832 3.175 1.274 4.902 1.276h.004c5.192 0 9.444-4.194 9.452-9.394.004-2.512-1.01-4.872-2.914-6.758zM12.025 20.031h-.003c-1.488 0-2.944-.403-4.211-1.159l-.302-.18-3.227.93.992-3.146-.174-.31a8.416 8.416 0 0 1-1.288-4.468c.008-4.656 3.794-8.438 8.46-8.438 2.256 0 4.377.88 5.973 2.478 1.592 1.594 2.467 3.713 2.463 5.966-.008 4.656-3.795 8.437-8.463 8.437zM16.293 14.1c-.242-.121-1.432-.706-1.654-.787-.222-.08-.383-.121-.544.121-.161.242-.625.787-.766.948-.141.161-.282.181-.524.06-.868-.404-1.584-1.113-2.165-1.92-.163-.242-.017-.373.115-.578.094-.145.213-.316.284-.476.081-.16.041-.302-.02-.424-.061-.121-.544-1.311-.746-1.796-.196-.472-.396-.404-.544-.414-.142-.01-.302-.01-.462-.01s-.423.06-.644.302c-.221.242-.847.827-.847 2.018 0 1.19.867 2.341.989 2.502.121.161 1.673 2.663 4.134 3.631.576.222 1.032.358 1.386.46.586.168 1.12.144 1.543.088.473-.064 1.456-.595 1.662-1.17.206-.575.206-1.069.144-1.17-.061-.101-.222-.161-.464-.283z"/>
-    </svg>
-    <span>Chat with Owner</span>
-  </a>
-  
-  <section class="hero" id="home"> 
-   <h1 class="hero-title">Download TikTok Without Limits</h1> 
-   <p class="hero-sub"> The most advanced futuristic TikTok downloader ever built. No watermark. Instant processing. 2026 SaaS-grade experience. </p> 
-   <div class="downloader-wrapper"> 
-    <div class="input-group"> 
-     <input type="text" id="urlInput" placeholder="Paste TikTok URL here..."> 
-    </div> 
-    <button class="primary-btn" id="downloadBtn">Download Now</button> 
-   </div> 
-  </section> 
-  
-  <script>
-
-/* =====================================================
-   PARTICLE BACKGROUND ENGINE
-===================================================== */
-
-const canvas = document.getElementById("bgCanvas");
-const ctx = canvas.getContext("2d");
-
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-let particles = [];
-
-class Particle{
-  constructor(){
-    this.x = Math.random() * canvas.width;
-    this.y = Math.random() * canvas.height;
-    this.radius = Math.random() * 2 + 1;
-    this.speedX = (Math.random() - 0.5) * 0.5;
-    this.speedY = (Math.random() - 0.5) * 0.5;
+  .stats-grid-results {
+    grid-template-columns: repeat(2, 1fr);
   }
-  update(){
-    this.x += this.speedX;
-    this.y += this.speedY;
-
-    if(this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-    if(this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+  .download-buttons {
+    flex-direction: column;
   }
-  draw(){
-    ctx.beginPath();
-    ctx.arc(this.x,this.y,this.radius,0,Math.PI*2);
-    ctx.fillStyle = "rgba(0,255,255,0.6)";
-    ctx.fill();
-  }
-}
-
-function initParticles(){
-  particles = [];
-  for(let i=0;i<120;i++){
-    particles.push(new Particle());
-  }
-}
-
-function animateParticles(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  particles.forEach(p=>{
-    p.update();
-    p.draw();
-  });
-  requestAnimationFrame(animateParticles);
-}
-
-initParticles();
-animateParticles();
-
-window.addEventListener("resize",()=>{
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  initParticles();
-});
-
-</script> 
-
-<style>
-
-/* Loader */
-.loader{
-  margin-top:25px;
-  width:55px;
-  height:55px;
-  border-radius:50%;
-  border:5px solid rgba(255,255,255,0.15);
-  border-top:5px solid var(--neon-blue);
-  animation:spin 1s linear infinite;
-  display:none;
-}
-
-@keyframes spin{
-  to{transform:rotate(360deg)}
-}
-
-/* Modal */
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.8);
-  backdrop-filter:blur(10px);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  opacity:0;
-  visibility:hidden;
-  transition:0.4s ease;
-  z-index:2000;
-  padding:20px;
-}
-
-.modal.active{
-  opacity:1;
-  visibility:visible;
-}
-
-.modal-box{
-  width:100%;
-  max-width:700px;
-  background:var(--glass-bg);
-  border:1px solid var(--glass-border);
-  border-radius:var(--radius-xl);
-  padding:40px;
-  transform:scale(0.8);
-  transition:0.4s ease;
-  box-shadow:var(--shadow-deep);
-}
-
-.modal.active .modal-box{
-  transform:scale(1);
-}
-
-.modal-title{
-  font-size:22px;
-  margin-bottom:20px;
-  font-weight:700;
-}
-
-.action-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-  margin-bottom:20px;
-}
-
-.action-btn{
-  padding:14px;
-  border-radius:14px;
-  border:1px solid var(--glass-border);
-  background:rgba(255,255,255,0.05);
-  cursor:pointer;
-  transition:0.3s ease;
-  text-align:center;
-  font-weight:600;
-}
-
-.action-btn:hover{
-  background:linear-gradient(90deg,var(--neon-blue),var(--neon-pink));
-  box-shadow:0 0 25px rgba(0,255,255,0.6);
-}
-
-/* Video preview */
-.video-preview{
-  width:100%;
-  border-radius:18px;
-  margin-top:20px;
-  display:none;
-}
-
-/* Progress bar */
-.progress-wrapper{
-  margin-top:20px;
-  display:none;
-}
-
-.progress-bar{
-  width:0%;
-  height:10px;
-  background:linear-gradient(90deg,var(--neon-blue),var(--neon-pink));
-  border-radius:10px;
-  transition:width 0.2s;
-}
-
-.progress-bg{
-  width:100%;
-  height:10px;
-  background:rgba(255,255,255,0.1);
-  border-radius:10px;
-}
-
-/* Toast */
-.toast{
-  position:fixed;
-  top:30px;
-  right:30px;
-  background:rgba(0,0,0,0.9);
-  border:1px solid var(--neon-pink);
-  padding:16px 22px;
-  border-radius:14px;
-  box-shadow:0 0 25px rgba(255,0,200,0.6);
-  display:none;
-  z-index:3000;
-  animation:slideIn 0.5s ease forwards;
-  font-size:14px;
-  max-width:320px;
-}
-
-@keyframes slideIn{
-  from{transform:translateX(100px);opacity:0}
-  to{transform:translateX(0);opacity:1}
-}
-
-/* Fallback demo mode */
-.demo-mode-notice {
-  background: rgba(255, 255, 0, 0.2);
-  border: 1px solid yellow;
-  border-radius: 10px;
-  padding: 10px;
-  margin-top: 15px;
-  font-size: 13px;
-  color: #fff;
-  text-align: center;
-}
-
-@media(max-width:600px){
-  .action-grid{
-    grid-template-columns:1fr;
-  }
-}
-
-</style> 
-
-  <div class="loader" id="loader"></div> 
-  <div class="modal" id="modal"> 
-   <div class="modal-box"> 
-    <div class="modal-title">
-     What do you want to do?
-    </div> 
-    <div class="action-grid" id="actions"></div> 
-    <video id="videoPreview" class="video-preview" controls></video> 
-    <div class="progress-wrapper" id="progressWrapper"> 
-     <div class="progress-bg"> 
-      <div class="progress-bar" id="progressBar"></div> 
-     </div> 
-    </div> 
-    <div id="demoNotice" class="demo-mode-notice" style="display: none;">
-      ⚡ Using TikWM API - Loading video data...
-    </div>
-   </div> 
-  </div> 
-  
-  <div class="toast" id="toast"></div> 
-  
-  <script>
-
-/* =====================================================
-   ELEMENTS
-===================================================== */
-
-const urlInput = document.getElementById("urlInput");
-const downloadBtn = document.getElementById("downloadBtn");
-const loader = document.getElementById("loader");
-const modal = document.getElementById("modal");
-const actions = document.getElementById("actions");
-const toast = document.getElementById("toast");
-const videoPreview = document.getElementById("videoPreview");
-const progressBar = document.getElementById("progressBar");
-const progressWrapper = document.getElementById("progressWrapper");
-const demoNotice = document.getElementById("demoNotice");
-
-let apiData = null;
-
-/* =====================================================
-   UTILITIES
-===================================================== */
-
-function showToast(message){
-  toast.innerText = message;
-  toast.style.display = "block";
-  setTimeout(()=>{ toast.style.display="none"; },3500);
-}
-
-function isValidTikTok(url){
-  return /https?:\/\/(www\.)?(tiktok\.com|vm\.tiktok\.com|vt\.tiktok\.com|tiktok\.com\/@)/.test(url);
-}
-
-function closeModal(){
-  modal.classList.remove("active");
 }
 
 /* =====================================================
-   FETCH TIKTOK DATA - USING TIKWM API (NO CORS ISSUES)
+   EXISTING SECTIONS STYLES (KEPT UNCHANGED)
 ===================================================== */
-
-downloadBtn.addEventListener("click", async ()=>{
-
-  const url = urlInput.value.trim();
-
-  if(!isValidTikTok(url)){
-    showToast("Invalid TikTok URL.");
-    return;
-  }
-
-  loader.style.display = "block";
-  downloadBtn.disabled = true;
-  demoNotice.style.display = "none";
-
-  try {
-    // Using TikWM API - more reliable and no CORS issues
-    const apiUrl = `https://www.tikwm.com/api/?url=${encodeURIComponent(url)}`;
-    
-    const response = await fetch(apiUrl, {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    });
-
-    const data = await response.json();
-    
-    if (data.code === 0 && data.data) {
-      // Success - API returned data
-      apiData = data.data;
-      openModal();
-    } else {
-      showToast("Failed to fetch video. Try another URL.");
-    }
-
-  } catch (error) {
-    console.error("API Error:", error);
-    showToast("Network error - please try again");
-  }
-
-  loader.style.display = "none";
-  downloadBtn.disabled = false;
-});
-
-/* =====================================================
-   MODAL ACTIONS - ADAPTED FOR TIKWM API
-===================================================== */
-
-function openModal(){
-
-  actions.innerHTML="";
-  videoPreview.style.display="none";
-  progressWrapper.style.display="none";
-  progressBar.style.width="0%";
-
-  modal.classList.add("active");
-
-  function createBtn(text,callback){
-    const btn = document.createElement("div");
-    btn.className="action-btn";
-    btn.innerText=text;
-    btn.onclick=callback;
-    actions.appendChild(btn);
-  }
-
-  // Extract data from TikWM API response
-  const videoUrl = apiData.play; // No watermark video
-  const wmVideoUrl = apiData.wmplay; // Watermark video (if needed)
-  const caption = apiData.title || "TikTok Video";
-  const likes = formatNumber(apiData.digg_count) || "0";
-  const views = formatNumber(apiData.play_count) || "0";
-  const comments = formatNumber(apiData.comment_count) || "0";
-  const shares = formatNumber(apiData.share_count) || "0";
-  const downloads = formatNumber(apiData.download_count) || "0";
-  const collects = formatNumber(apiData.collect_count) || "0";
-  const createTime = new Date(apiData.create_time * 1000).toLocaleDateString();
-  const author = apiData.author?.nickname || "Unknown";
-  const username = apiData.author?.unique_id || "unknown";
-  const duration = apiData.duration || "0";
-  const region = apiData.region || "Unknown";
-
-  // Format numbers (e.g., 1000 -> 1K)
-  function formatNumber(num) {
-    if (!num) return "0";
-    if (num >= 1000000) return (num/1000000).toFixed(1) + "M";
-    if (num >= 1000) return (num/1000).toFixed(1) + "K";
-    return num.toString();
-  }
-
-  createBtn("🎥 Preview Video",()=>{
-    if(videoUrl){
-      videoPreview.src = videoUrl;
-      videoPreview.style.display="block";
-      videoPreview.play();
-    }else{
-      showToast("Video not available.");
-    }
-  });
-
-  createBtn("⬇ Download HD", async ()=>{
-    if(videoUrl){
-      await streamDownload(videoUrl);
-    }else{
-      showToast("No downloadable video.");
-    }
-  });
-
-  createBtn("⬇ Download WM", async ()=>{
-    if(wmVideoUrl){
-      await streamDownload(wmVideoUrl);
-    }else{
-      showToast("No watermark version available.");
-    }
-  });
-
-  createBtn("📝 Copy Caption",()=>{
-    navigator.clipboard.writeText(caption);
-    showToast("Caption copied.");
-  });
-
-  createBtn("❤️ Likes",()=> showToast("❤️ Likes: " + likes));
-  createBtn("👀 Views",()=> showToast("👀 Views: " + views));
-  createBtn("💬 Comments",()=> showToast("💬 Comments: " + comments));
-  createBtn("🔄 Shares",()=> showToast("🔄 Shares: " + shares));
-  createBtn("📥 Downloads",()=> showToast("📥 Downloads: " + downloads));
-  createBtn("⭐ Collects",()=> showToast("⭐ Collects: " + collects));
-  createBtn("📅 Date",()=> showToast("📅 Posted: " + createTime));
-  createBtn("🌍 Region",()=> showToast("🌍 Region: " + region));
-  createBtn("👤 Author",()=> showToast(author + " (@" + username + ")"));
-
-  setTimeout(closeModal, 45000); // Close after 45 seconds
-}
-
-/* =====================================================
-   STREAM DOWNLOAD WITH PROGRESS
-===================================================== */
-
-async function streamDownload(url){
-
-  progressWrapper.style.display="block";
-  progressBar.style.width="0%";
-
-  try {
-    const response = await fetch(url);
-    const reader = response.body.getReader();
-    const contentLength = +response.headers.get('Content-Length') || 1000000;
-
-    let receivedLength = 0;
-    let chunks = [];
-
-    while(true){
-      const {done, value} = await reader.read();
-      if(done) break;
-      chunks.push(value);
-      receivedLength += value.length;
-
-      let percent = (receivedLength / contentLength) * 100;
-      progressBar.style.width = Math.min(percent, 100) + "%";
-    }
-
-    const blob = new Blob(chunks);
-    const blobUrl = window.URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    const filename = `tiktok_${Date.now()}.mp4`;
-
-    a.href = blobUrl;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-
-    window.URL.revokeObjectURL(blobUrl);
-
-    showToast("✅ Download completed!");
-    progressWrapper.style.display="none";
-    
-  } catch (error) {
-    showToast("❌ Download failed - try again");
-    progressWrapper.style.display="none";
-  }
-}
-
-modal.addEventListener("click",e=>{
-  if(e.target===modal) closeModal();
-});
-
-</script> 
-
-<style>
 
 .section{
   padding:120px 60px;
@@ -1130,61 +876,378 @@ modal.addEventListener("click",e=>{
 }
 
 </style> 
-
-  <section class="section" id="stats"> 
-   <h2 class="section-title">Platform Statistics</h2> 
-   <p class="section-sub">Trusted globally by creators and developers</p> 
-   <div class="stats-grid"> 
-    <div class="stat-card"> <div class="stat-number" data-target="12500">0</div> <div class="stat-label">Downloads</div> </div> 
-    <div class="stat-card"> <div class="stat-number" data-target="8900">0</div> <div class="stat-label">Active Users</div> </div> 
-    <div class="stat-card"> <div class="stat-number" data-target="99">0</div> <div class="stat-label">Uptime %</div> </div> 
-    <div class="stat-card"> <div class="stat-number" data-target="45">0</div> <div class="stat-label">Countries</div> </div> 
+ </head> 
+ <body> 
+  <canvas id="bgCanvas"></canvas> 
+  <nav> 
+   <div class="nav-logo">
+    SnapTok
    </div> 
-  </section> 
+   <div class="nav-links"> 
+     <a href="#home">Home</a> 
+     <a href="#features">Features</a> 
+     <a href="#faq">FAQ</a> 
+     
+     <button class="settings-btn" id="settingsToggle">
+       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H5.78a1.65 1.65 0 0 0-1.51 1 1.65 1.65 0 0 0 .33 1.82l.03.03A10 10 0 0 0 12 17.66a10 10 0 0 0 6.37-2.63z"/><path d="M16.5 6.5 16 8"/><path d="M6.5 6.5 7 8"/></svg>
+       <span>Theme</span>
+     </button>
+   </div> 
+  </nav> 
   
-  <section class="section" id="features"> 
-   <h2 class="section-title">Premium Features</h2> 
-   <p class="section-sub">Built like a $10,000 SaaS product</p> 
-   <div class="features-grid"> 
-    <div class="feature-card"> <div class="feature-title">Ultra Fast API</div> <div class="feature-desc">Lightning-speed processing with intelligent caching layer.</div> </div> 
-    <div class="feature-card"> <div class="feature-title">No Watermark</div> <div class="feature-desc">Clean high-definition video extraction without branding.</div> </div> 
-    <div class="feature-card"> <div class="feature-title">Streaming Download</div> <div class="feature-desc">Live progress bar powered by streaming fetch reader.</div> </div> 
-    <div class="feature-card"> <div class="feature-title">In-App Preview</div> <div class="feature-desc">Preview videos before downloading with built-in player.</div> </div> 
-    <div class="feature-card"> <div class="feature-title">Theme Engine</div> <div class="feature-desc">Switch between Cyberpunk, Aurora, and Matrix styles.</div> </div> 
-    <div class="feature-card"> <div class="feature-title">Glass UI System</div> <div class="feature-desc">Layered glassmorphism with neon glow interactions.</div> </div> 
+  <div class="theme-panel" id="themePanel"> 
+   <h4>Theme Switcher</h4> 
+   <button class="theme-btn" onclick="setTheme('cyber')">Cyberpunk</button> 
+   <button class="theme-btn" onclick="setTheme('aurora')">Aurora</button> 
+   <button class="theme-btn" onclick="setTheme('matrix')">Matrix</button> 
+  </div>
+  
+  <a href="https://wa.me/923057175014?text=Hi%20NASIR%20HACKER%2C%20I%20need%20help%20with%20SnapTok%20-%20I%20have%20a%20question%20about%20downloading%20TikTok%20videos" target="_blank" class="floating-whatsapp" id="floatingWhatsapp">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M19.077 4.928C17.191 3.041 14.683 2 12.006 2 6.798 2 2.548 6.193 2.54 11.393c-.003 1.747.456 3.457 1.328 4.985L2.25 21.75l5.433-1.566c1.494.832 3.175 1.274 4.902 1.276h.004c5.192 0 9.444-4.194 9.452-9.394.004-2.512-1.01-4.872-2.914-6.758zM12.025 20.031h-.003c-1.488 0-2.944-.403-4.211-1.159l-.302-.18-3.227.93.992-3.146-.174-.31a8.416 8.416 0 0 1-1.288-4.468c.008-4.656 3.794-8.438 8.46-8.438 2.256 0 4.377.88 5.973 2.478 1.592 1.594 2.467 3.713 2.463 5.966-.008 4.656-3.795 8.437-8.463 8.437zM16.293 14.1c-.242-.121-1.432-.706-1.654-.787-.222-.08-.383-.121-.544.121-.161.242-.625.787-.766.948-.141.161-.282.181-.524.06-.868-.404-1.584-1.113-2.165-1.92-.163-.242-.017-.373.115-.578.094-.145.213-.316.284-.476.081-.16.041-.302-.02-.424-.061-.121-.544-1.311-.746-1.796-.196-.472-.396-.404-.544-.414-.142-.01-.302-.01-.462-.01s-.423.06-.644.302c-.221.242-.847.827-.847 2.018 0 1.19.867 2.341.989 2.502.121.161 1.673 2.663 4.134 3.631.576.222 1.032.358 1.386.46.586.168 1.12.144 1.543.088.473-.064 1.456-.595 1.662-1.17.206-.575.206-1.069.144-1.17-.061-.101-.222-.161-.464-.283z"/>
+    </svg>
+    <span>Chat with Owner</span>
+  </a>
+  
+  <section class="hero" id="home"> 
+   <h1 class="hero-title">Download TikTok Without Limits</h1> 
+   <p class="hero-sub"> The most advanced futuristic TikTok downloader ever built. No watermark. Instant processing. 2026 SaaS-grade experience. </p> 
+   <div class="downloader-wrapper"> 
+    <div class="input-group"> 
+     <input type="text" id="urlInput" placeholder="Paste TikTok URL here..."> 
+    </div> 
+    <button class="primary-btn" id="downloadBtn">Download Now</button> 
+    <div class="loader" id="loader"></div>
    </div> 
-  </section> 
+  </section>
+
+  <!-- RESULTS SECTION (Replaces Modal) -->
+  <div class="results-section" id="resultsSection">
+    <div class="results-header">
+      <div class="results-title">🎬 Video Details</div>
+      <button class="close-results" id="closeResults">✕ Close</button>
+    </div>
+    
+    <!-- Video Container -->
+    <div class="video-container" id="videoContainer" style="display: none;">
+      <video id="resultVideo" controls></video>
+    </div>
+    
+    <!-- Stats Grid -->
+    <div class="stats-grid-results" id="statsGrid"></div>
+    
+    <!-- Caption -->
+    <div class="caption-box" id="captionBox"></div>
+    
+    <!-- Author Info -->
+    <div class="author-info" id="authorInfo"></div>
+    
+    <!-- Download Buttons -->
+    <div class="download-buttons">
+      <button class="download-btn hd" id="downloadHdBtn">⬇ Download HD (No Watermark)</button>
+      <button class="download-btn wm" id="downloadWmBtn">⬇ Download with Watermark</button>
+    </div>
+    
+    <!-- Progress Bar -->
+    <div class="progress-wrapper" id="progressWrapper">
+      <div class="progress-bg">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="toast" id="toast"></div> 
   
   <script>
 
-const counters = document.querySelectorAll(".stat-number");
+/* =====================================================
+   PARTICLE BACKGROUND ENGINE
+===================================================== */
 
-function animateCounters(){
-  counters.forEach(counter=>{
-    const update = ()=>{
-      const target = +counter.getAttribute("data-target");
-      const count = +counter.innerText;
-      const increment = target / 200;
-      if(count < target){
-        counter.innerText = Math.ceil(count + increment);
-        setTimeout(update,10);
-      }else{
-        counter.innerText = target;
-      }
-    };
-    update();
-  });
+const canvas = document.getElementById("bgCanvas");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+class Particle{
+  constructor(){
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.radius = Math.random() * 2 + 1;
+    this.speedX = (Math.random() - 0.5) * 0.5;
+    this.speedY = (Math.random() - 0.5) * 0.5;
+  }
+  update(){
+    this.x += this.speedX;
+    this.y += this.speedY;
+
+    if(this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+    if(this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+  }
+  draw(){
+    ctx.beginPath();
+    ctx.arc(this.x,this.y,this.radius,0,Math.PI*2);
+    ctx.fillStyle = "rgba(0,255,255,0.6)";
+    ctx.fill();
+  }
 }
 
-let statsSection = document.getElementById("stats");
-
-window.addEventListener("scroll",()=>{
-  const rect = statsSection.getBoundingClientRect();
-  if(rect.top < window.innerHeight && !statsSection.classList.contains("animated")){
-    statsSection.classList.add("animated");
-    animateCounters();
+function initParticles(){
+  particles = [];
+  for(let i=0;i<120;i++){
+    particles.push(new Particle());
   }
+}
+
+function animateParticles(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles.forEach(p=>{
+    p.update();
+    p.draw();
+  });
+  requestAnimationFrame(animateParticles);
+}
+
+initParticles();
+animateParticles();
+
+window.addEventListener("resize",()=>{
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  initParticles();
 });
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const urlInput = document.getElementById("urlInput");
+const downloadBtn = document.getElementById("downloadBtn");
+const loader = document.getElementById("loader");
+const toast = document.getElementById("toast");
+const resultsSection = document.getElementById("resultsSection");
+const closeResults = document.getElementById("closeResults");
+const resultVideo = document.getElementById("resultVideo");
+const videoContainer = document.getElementById("videoContainer");
+const statsGrid = document.getElementById("statsGrid");
+const captionBox = document.getElementById("captionBox");
+const authorInfo = document.getElementById("authorInfo");
+const downloadHdBtn = document.getElementById("downloadHdBtn");
+const downloadWmBtn = document.getElementById("downloadWmBtn");
+const progressWrapper = document.getElementById("progressWrapper");
+const progressBar = document.getElementById("progressBar");
+
+let currentVideoData = null;
+
+/* =====================================================
+   UTILITIES
+===================================================== */
+
+function showToast(message){
+  toast.innerText = message;
+  toast.style.display = "block";
+  setTimeout(()=>{ toast.style.display="none"; },3500);
+}
+
+function isValidTikTok(url){
+  return /https?:\/\/(www\.)?(tiktok\.com|vm\.tiktok\.com|vt\.tiktok\.com|tiktok\.com\/@)/.test(url);
+}
+
+function formatNumber(num) {
+  if (!num) return "0";
+  if (num >= 1000000) return (num/1000000).toFixed(1) + "M";
+  if (num >= 1000) return (num/1000).toFixed(1) + "K";
+  return num.toString();
+}
+
+/* =====================================================
+   FETCH TIKTOK DATA - USING TIKWM API
+===================================================== */
+
+downloadBtn.addEventListener("click", async ()=>{
+
+  const url = urlInput.value.trim();
+
+  if(!isValidTikTok(url)){
+    showToast("Invalid TikTok URL.");
+    return;
+  }
+
+  loader.style.display = "block";
+  downloadBtn.disabled = true;
+  
+  // Hide previous results
+  resultsSection.classList.remove("active");
+  videoContainer.style.display = "none";
+
+  try {
+    const apiUrl = `https://www.tikwm.com/api/?url=${encodeURIComponent(url)}`;
+    
+    const response = await fetch(apiUrl, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    });
+
+    const data = await response.json();
+    
+    if (data.code === 0 && data.data) {
+      currentVideoData = data.data;
+      displayResults(currentVideoData);
+      
+      // Scroll to results
+      setTimeout(() => {
+        resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    } else {
+      showToast("Failed to fetch video. Try another URL.");
+    }
+
+  } catch (error) {
+    console.error("API Error:", error);
+    showToast("Network error - please try again");
+  }
+
+  loader.style.display = "none";
+  downloadBtn.disabled = false;
+});
+
+/* =====================================================
+   DISPLAY RESULTS (INLINE, NO MODAL)
+===================================================== */
+
+function displayResults(data) {
+  
+  // Show results section
+  resultsSection.classList.add("active");
+  
+  // Set video
+  if (data.play) {
+    resultVideo.src = data.play;
+    videoContainer.style.display = "block";
+    resultVideo.load();
+  } else {
+    videoContainer.style.display = "none";
+  }
+  
+  // Generate stats grid
+  const stats = [
+    { label: "❤️ Likes", value: formatNumber(data.digg_count) },
+    { label: "👀 Views", value: formatNumber(data.play_count) },
+    { label: "💬 Comments", value: formatNumber(data.comment_count) },
+    { label: "🔄 Shares", value: formatNumber(data.share_count) },
+    { label: "📥 Downloads", value: formatNumber(data.download_count) },
+    { label: "⭐ Saves", value: formatNumber(data.collect_count) },
+    { label: "🌍 Region", value: data.region || "Unknown" },
+    { label: "⏱️ Duration", value: data.duration + "s" }
+  ];
+  
+  statsGrid.innerHTML = stats.map(stat => `
+    <div class="stat-item">
+      <div class="stat-value">${stat.value}</div>
+      <div class="stat-label">${stat.label}</div>
+    </div>
+  `).join('');
+  
+  // Set caption
+  captionBox.textContent = data.title || "No caption available";
+  
+  // Set author info
+  const author = data.author || {};
+  const avatarLetter = (author.nickname || "U").charAt(0).toUpperCase();
+  
+  authorInfo.innerHTML = `
+    <div class="author-avatar">${avatarLetter}</div>
+    <div class="author-details">
+      <div class="author-name">${author.nickname || "Unknown"}</div>
+      <div class="author-username">@${author.unique_id || "unknown"}</div>
+    </div>
+  `;
+  
+  // Store video URLs for download buttons
+  downloadHdBtn.setAttribute('data-url', data.play || '');
+  downloadWmBtn.setAttribute('data-url', data.wmplay || '');
+}
+
+/* =====================================================
+   DOWNLOAD HANDLERS
+===================================================== */
+
+async function downloadVideo(url, type) {
+  if (!url) {
+    showToast("No video URL available");
+    return;
+  }
+  
+  progressWrapper.style.display = "block";
+  progressBar.style.width = "0%";
+
+  try {
+    const response = await fetch(url);
+    const reader = response.body.getReader();
+    const contentLength = +response.headers.get('Content-Length') || 1000000;
+
+    let receivedLength = 0;
+    let chunks = [];
+
+    while(true){
+      const {done, value} = await reader.read();
+      if(done) break;
+      chunks.push(value);
+      receivedLength += value.length;
+
+      let percent = (receivedLength / contentLength) * 100;
+      progressBar.style.width = Math.min(percent, 100) + "%";
+    }
+
+    const blob = new Blob(chunks);
+    const blobUrl = window.URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    const filename = `tiktok_${type}_${Date.now()}.mp4`;
+
+    a.href = blobUrl;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    window.URL.revokeObjectURL(blobUrl);
+
+    showToast("✅ Download completed!");
+    progressWrapper.style.display = "none";
+    
+  } catch (error) {
+    showToast("❌ Download failed - try again");
+    progressWrapper.style.display = "none";
+  }
+}
+
+downloadHdBtn.addEventListener('click', () => {
+  const url = downloadHdBtn.getAttribute('data-url');
+  downloadVideo(url, 'hd');
+});
+
+downloadWmBtn.addEventListener('click', () => {
+  const url = downloadWmBtn.getAttribute('data-url');
+  downloadVideo(url, 'wm');
+});
+
+// Close results
+closeResults.addEventListener('click', () => {
+  resultsSection.classList.remove('active');
+  videoContainer.style.display = "none";
+  resultVideo.pause();
+});
+
+/* =====================================================
+   THEME ENGINE & SETTINGS TOGGLE
+===================================================== */
 
 const settingsToggle = document.getElementById('settingsToggle');
 const themePanel = document.getElementById('themePanel');
@@ -1217,6 +1280,10 @@ function setTheme(type){
   themePanel.classList.remove('active');
 }
 
+/* =====================================================
+   PARTICLE INTERACTION
+===================================================== */
+
 canvas.addEventListener("mousemove",(e)=>{
   particles.forEach(p=>{
     const dx = p.x - e.clientX;
@@ -1231,80 +1298,95 @@ canvas.addEventListener("mousemove",(e)=>{
 
 </script> 
 
-  <section class="how-section" id="how"> 
-   <h2 class="how-title">How It Works</h2> 
-   <div class="how-steps"> 
-    <div class="step-card"> <div class="step-number">1</div> <div class="step-desc">Paste TikTok URL into input field.</div> </div> 
-    <div class="step-card"> <div class="step-number">2</div> <div class="step-desc">Click Download or Preview to process video.</div> </div> 
-    <div class="step-card"> <div class="step-number">3</div> <div class="step-desc">Download instantly or copy metadata.</div> </div> 
-   </div> 
-  </section> 
-  
-  <section class="faq-section" id="faq"> 
-   <h2 class="faq-title">Frequently Asked Questions</h2> 
-   <div class="faq-item"> <div class="faq-question">Is this downloader free?</div> <div class="faq-answer">Yes! You can download TikTok videos instantly with no charges.</div> </div> 
-   <div class="faq-item"> <div class="faq-question">Do videos have watermark?</div> <div class="faq-answer">No watermark version is available. You can choose HD without watermark.</div> </div> 
-   <div class="faq-item"> <div class="faq-question">Do I need to install anything?</div> <div class="faq-answer">No installation required. Works directly in your browser.</div> </div> 
-  </section> 
-  
-  <div class="footer">Owner: NASIR HACKER</div> 
-  
-  <script>
+<!-- =====================================================
+     EXISTING SECTIONS (KEPT UNCHANGED)
+===================================================== -->
 
-const faqItems = document.querySelectorAll(".faq-item");
-faqItems.forEach(item=>{
-  item.querySelector(".faq-question").addEventListener("click",()=>{
-    item.classList.toggle("active");
+<section class="section" id="stats"> 
+  <h2 class="section-title">Platform Statistics</h2> 
+  <p class="section-sub">Trusted globally by creators and developers</p> 
+  <div class="stats-grid"> 
+   <div class="stat-card"> <div class="stat-number" data-target="12500">0</div> <div class="stat-label">Downloads</div> </div> 
+   <div class="stat-card"> <div class="stat-number" data-target="8900">0</div> <div class="stat-label">Active Users</div> </div> 
+   <div class="stat-card"> <div class="stat-number" data-target="99">0</div> <div class="stat-label">Uptime %</div> </div> 
+   <div class="stat-card"> <div class="stat-number" data-target="45">0</div> <div class="stat-label">Countries</div> </div> 
+  </div> 
+</section> 
+
+<section class="section" id="features"> 
+  <h2 class="section-title">Premium Features</h2> 
+  <p class="section-sub">Built like a $10,000 SaaS product</p> 
+  <div class="features-grid"> 
+   <div class="feature-card"> <div class="feature-title">Ultra Fast API</div> <div class="feature-desc">Lightning-speed processing with intelligent caching layer.</div> </div> 
+   <div class="feature-card"> <div class="feature-title">No Watermark</div> <div class="feature-desc">Clean high-definition video extraction without branding.</div> </div> 
+   <div class="feature-card"> <div class="feature-title">Streaming Download</div> <div class="feature-desc">Live progress bar powered by streaming fetch reader.</div> </div> 
+   <div class="feature-card"> <div class="feature-title">In-App Preview</div> <div class="feature-desc">Preview videos before downloading with built-in player.</div> </div> 
+   <div class="feature-card"> <div class="feature-title">Theme Engine</div> <div class="feature-desc">Switch between Cyberpunk, Aurora, and Matrix styles.</div> </div> 
+   <div class="feature-card"> <div class="feature-title">Glass UI System</div> <div class="feature-desc">Layered glassmorphism with neon glow interactions.</div> </div> 
+  </div> 
+</section> 
+
+<section class="how-section" id="how"> 
+  <h2 class="how-title">How It Works</h2> 
+  <div class="how-steps"> 
+   <div class="step-card"> <div class="step-number">1</div> <div class="step-desc">Paste TikTok URL into input field.</div> </div> 
+   <div class="step-card"> <div class="step-number">2</div> <div class="step-desc">Click Download or Preview to process video.</div> </div> 
+   <div class="step-card"> <div class="step-number">3</div> <div class="step-desc">Download instantly or copy metadata.</div> </div> 
+  </div> 
+</section> 
+
+<section class="faq-section" id="faq"> 
+  <h2 class="faq-title">Frequently Asked Questions</h2> 
+  <div class="faq-item"> <div class="faq-question">Is this downloader free?</div> <div class="faq-answer">Yes! You can download TikTok videos instantly with no charges.</div> </div> 
+  <div class="faq-item"> <div class="faq-question">Do videos have watermark?</div> <div class="faq-answer">No watermark version is available. You can choose HD without watermark.</div> </div> 
+  <div class="faq-item"> <div class="faq-question">Do I need to install anything?</div> <div class="faq-answer">No installation required. Works directly in your browser.</div> </div> 
+</section> 
+
+<div class="footer">Owner: NASIR HACKER</div> 
+
+<section class="dashboard-section" id="dashboard"> 
+  <h2 class="dashboard-title">Download Analytics (Mock)</h2> 
+  <div class="analytics-grid"> 
+   <div class="analytics-card"> <div class="analytics-number" data-target="2560">0</div> <div class="analytics-label">Videos Downloaded Today</div> </div> 
+   <div class="analytics-card"> <div class="analytics-number" data-target="185">0</div> <div class="analytics-label">Active Sessions</div> </div> 
+   <div class="analytics-card"> <div class="analytics-number" data-target="1023">0</div> <div class="analytics-label">Videos Previewed</div> </div> 
+  </div> 
+</section> 
+
+<script>
+
+/* =====================================================
+   COUNTER ANIMATIONS (KEPT UNCHANGED)
+===================================================== */
+
+const counters = document.querySelectorAll(".stat-number");
+function animateCounters(){
+  counters.forEach(counter=>{
+    const update = ()=>{
+      const target = +counter.getAttribute("data-target");
+      const count = +counter.innerText;
+      const increment = target / 200;
+      if(count < target){
+        counter.innerText = Math.ceil(count + increment);
+        setTimeout(update,10);
+      }else{
+        counter.innerText = target;
+      }
+    };
+    update();
   });
-});
+}
 
-document.addEventListener("keydown",(e)=>{
-  if(e.key==="Enter"){
-    downloadBtn.click();
-  }
-  if(e.key==="Escape"){
-    closeModal();
-  }
-});
-
-let touchStartY = 0;
-let touchEndY = 0;
-
-document.addEventListener("touchstart",(e)=>{
-  touchStartY = e.changedTouches[0].screenY;
-});
-
-document.addEventListener("touchend",(e)=>{
-  touchEndY = e.changedTouches[0].screenY;
-  if(touchEndY < touchStartY - 100){
-    window.scrollBy({top:400,behavior:'smooth'});
-  }
-  if(touchEndY > touchStartY + 100){
-    window.scrollBy({top:-400,behavior:'smooth'});
+let statsSection = document.getElementById("stats");
+window.addEventListener("scroll",()=>{
+  const rect = statsSection.getBoundingClientRect();
+  if(rect.top < window.innerHeight && !statsSection.classList.contains("animated")){
+    statsSection.classList.add("animated");
+    animateCounters();
   }
 });
-
-const buttons = document.querySelectorAll(".primary-btn,.action-btn,.theme-btn");
-buttons.forEach(btn=>{
-  btn.addEventListener("mouseenter",()=>btn.style.transform="scale(1.03)");
-  btn.addEventListener("mouseleave",()=>btn.style.transform="scale(1)");
-});
-
-</script> 
-
-  <section class="dashboard-section" id="dashboard"> 
-   <h2 class="dashboard-title">Download Analytics (Mock)</h2> 
-   <div class="analytics-grid"> 
-    <div class="analytics-card"> <div class="analytics-number" data-target="2560">0</div> <div class="analytics-label">Videos Downloaded Today</div> </div> 
-    <div class="analytics-card"> <div class="analytics-number" data-target="185">0</div> <div class="analytics-label">Active Sessions</div> </div> 
-    <div class="analytics-card"> <div class="analytics-number" data-target="1023">0</div> <div class="analytics-label">Videos Previewed</div> </div> 
-   </div> 
-  </section> 
-  
-  <script>
 
 const analyticsCounters = document.querySelectorAll(".analytics-number");
-
 function animateAnalytics(){
   analyticsCounters.forEach(counter=>{
     const update = ()=>{
@@ -1323,7 +1405,6 @@ function animateAnalytics(){
 }
 
 let dashboardSection = document.getElementById("dashboard");
-
 window.addEventListener("scroll",()=>{
   const rect = dashboardSection.getBoundingClientRect();
   if(rect.top < window.innerHeight && !dashboardSection.classList.contains("animated")){
@@ -1332,16 +1413,62 @@ window.addEventListener("scroll",()=>{
   }
 });
 
-function animateParticlesOptimized(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  particles.forEach(p=>{
-    p.update();
-    p.draw();
-  });
-  requestAnimationFrame(animateParticlesOptimized);
-}
+/* =====================================================
+   FAQ ACCORDION
+===================================================== */
 
-animateParticlesOptimized();
+const faqItems = document.querySelectorAll(".faq-item");
+faqItems.forEach(item=>{
+  item.querySelector(".faq-question").addEventListener("click",()=>{
+    item.classList.toggle("active");
+  });
+});
+
+/* =====================================================
+   KEYBOARD SHORTCUTS
+===================================================== */
+
+document.addEventListener("keydown",(e)=>{
+  if(e.key==="Enter" && !resultsSection.classList.contains('active')){
+    downloadBtn.click();
+  }
+  if(e.key==="Escape" && resultsSection.classList.contains('active')){
+    resultsSection.classList.remove('active');
+    videoContainer.style.display = "none";
+    resultVideo.pause();
+  }
+});
+
+/* =====================================================
+   TOUCH/SWIPE INTERACTIONS
+===================================================== */
+
+let touchStartY = 0;
+let touchEndY = 0;
+
+document.addEventListener("touchstart",(e)=>{
+  touchStartY = e.changedTouches[0].screenY;
+});
+
+document.addEventListener("touchend",(e)=>{
+  touchEndY = e.changedTouches[0].screenY;
+  if(touchEndY < touchStartY - 100){
+    window.scrollBy({top:400,behavior:'smooth'});
+  }
+  if(touchEndY > touchStartY + 100){
+    window.scrollBy({top:-400,behavior:'smooth'});
+  }
+});
+
+/* =====================================================
+   HOVER EFFECTS
+===================================================== */
+
+const buttons = document.querySelectorAll(".primary-btn,.action-btn,.theme-btn,.download-btn");
+buttons.forEach(btn=>{
+  btn.addEventListener("mouseenter",()=>btn.style.transform="scale(1.03)");
+  btn.addEventListener("mouseleave",()=>btn.style.transform="scale(1)");
+});
 
 const allCards = document.querySelectorAll(".feature-card,.stat-card,.step-card,.analytics-card,.faq-item");
 allCards.forEach(card=>{
@@ -1355,6 +1482,10 @@ allCards.forEach(card=>{
   });
 });
 
+/* =====================================================
+   SMOOTH SCROLL
+===================================================== */
+
 const navLinks = document.querySelectorAll(".nav-links a");
 navLinks.forEach(link=>{
   link.addEventListener("click",e=>{
@@ -1365,6 +1496,21 @@ navLinks.forEach(link=>{
     }
   });
 });
+
+/* =====================================================
+   PARTICLE PERFORMANCE
+===================================================== */
+
+function animateParticlesOptimized(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles.forEach(p=>{
+    p.update();
+    p.draw();
+  });
+  requestAnimationFrame(animateParticlesOptimized);
+}
+
+animateParticlesOptimized();
 
 </script> 
  </body>
